@@ -38,9 +38,24 @@ class Auth extends BaseController
 
     public function createUser(){
 
-
-
-    }
+        $email = $this->request->getPost('email');
+        $password = $this->request->getPost('password');
+    
+        $userModel = new \App\Models\UserModel();
+    
+        //entidade sendo criada
+        $user = new User();
+        $user->email = $email;
+        $user->setPassword($password);
+    
+        // validação
+        if (!$userModel->save($user)) {
+            // Se falhar volta pro register
+            return redirect()->route('register')->withInput()->with('errors', $userModel->errors());
+        }
+    
+        return redirect()->route('/')->with('success', 'Usuário registrado com sucesso!');
+        }
 
     public function logout(){
         session()->destroy();
