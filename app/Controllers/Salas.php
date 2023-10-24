@@ -10,4 +10,11 @@ class Salas extends BaseController
     {
         
     }
+
+    public function buscarSala(){
+        
+    }
+
+
+
 }

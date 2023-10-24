@@ -20,4 +20,10 @@ class UserModel extends Model
       
         return $this->where('email', $email)->first();
     }
+
+    public function updateUser(User $user){
+        $this->db->transStart();
+        $this->protected(false)->save($user);
+        $this->db->transComplete();
+    }
 }
