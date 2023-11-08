@@ -17,6 +17,11 @@ $routes->get('logout', 'Auth::logout');
 $routes->get('create', 'Auth::create');
 $routes->get('register', 'Auth::register');
 $routes->post('createUser', 'Auth::createUser');
+//eventos
+
+$routes->get('buscarSalas', 'Reservas::buscarSala');
+
+$routes->post('criarEvento', 'Reservas::criarEvento');
 
 //acessar calendario
 $routes->get('calendar', 'Calendario::index');
