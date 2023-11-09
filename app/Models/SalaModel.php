@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Entities\Sala;
 use CodeIgniter\Model;
 
 class SalaModel extends Model
 {
     protected $table = 'salas';
     protected $primaryKey = 'id';
-    protected $returnType = 'App\Entities\Sala';
+    protected $returnType = Sala::class;
     protected $useAutoIncrement = true;
     protected $allowedFields = ['nome', 'tipo'];
 

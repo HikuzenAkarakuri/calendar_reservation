@@ -9,7 +9,7 @@ class Salas extends BaseController
 {
     public function index()
     {
-        
+        echo view('create_sala');
     }
 
     

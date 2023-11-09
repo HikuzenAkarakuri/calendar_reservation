@@ -22,7 +22,10 @@ class Reservas extends BaseController
         'descricao' => $this->request->getPost('descricao'),
         'sala_id' => $this->request->getPost('sala_id'),
         'users_id' => $this->request->getPost('users_id'),
+
     ];
+
+    // debug($this->request->getPost());
 
     $evento = new Eventos($data);
 

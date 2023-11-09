@@ -103,19 +103,16 @@ document.getElementById('formCriarEvento').addEventListener('submit', function(e
 
 
     <!-- select das salas -->
-    <select name="sala" id="sala">
-
+    <select name="sala_id" id="sala_id">
     <option disabled selected>Selecione uma sala</option>
     <?php if (!empty($salas) && is_array($salas)) : ?>
         <?php foreach ($salas as $sala) : ?>
-
             <option value="<?= $sala->id ?>"><?= $sala->nome ?></option>
         <?php endforeach; ?>
     <?php else : ?>
-        
         <option disabled>Nenhuma sala encontrada</option>
     <?php endif; ?>
-    </select>
+  </select>
 
     <input type="hidden" id="users_id" name="users_id" value="1"><br>
 
