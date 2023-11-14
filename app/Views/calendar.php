@@ -33,18 +33,26 @@ document.getElementById('formCriarEvento').addEventListener('submit', function(e
 
       document.addEventListener('DOMContentLoaded', function() {
         var calendarEl = document.getElementById('calendar');
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-          initialView: 'dayGridMonth',
-          locale: 'pt-br',
-          editable: true,
-          themeSystem: 'pulse',
-          headerToolbar: {
-      left: 'prev,next today',
-      center: 'title',
-      right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
-    },
-    weekNumbers: '',
-    dayMaxEvents: true, // allow "more" link when too many events
+
+        <?php if (isset($eventos)) : ?>
+        var eventos = <?= json_encode($eventos) ?>;
+          <?php else : ?>
+              var eventos = []; // Se $eventos não estiver definida, inicializa como um array vazio
+          <?php endif; ?>
+
+             var calendar = new FullCalendar.Calendar(calendarEl, {
+              initialView: 'dayGridMonth',
+              locale: 'pt-br',
+              editable: true,
+              themeSystem: 'pulse',
+              headerToolbar: {
+                  left: 'prev,next today',
+                  center: 'title',
+                  right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
+                },
+                    weekNumbers: '',
+                    dayMaxEvents: true, // allow "more" link when too many events
+                    events: eventos, // Adiciona os eventos ao calendário
 
     dateClick: function(info) {
             // Captura a data clicada
@@ -58,6 +66,7 @@ document.getElementById('formCriarEvento').addEventListener('submit', function(e
         }
 
         });
+
         calendar.render();
       });
     </script>
@@ -96,7 +105,7 @@ document.getElementById('formCriarEvento').addEventListener('submit', function(e
     <input class="w3-input w3-border w3-margin-bottom" type="text" id="titulo" name="titulo" required><br><br>
 
     <label for="descricao">Descrição:</label>
-    <textarea class="w3-input w3-border w3-margin-bottom" id="descricao" name="descricao" required></textarea><br>
+    <textarea class="w3-input w3-border w3-margin-bottom" id="descricao" name="descrição" required></textarea><br>
 
     <!-- Esses campos podem ser preenchidos dinamicamente ou obtidos de outra forma -->
     <label for="sala">Sala:</label>
@@ -128,7 +137,6 @@ document.getElementById('formCriarEvento').addEventListener('submit', function(e
   </div>
 </div>
 
-<br><br>
 
 
   <p><a href="dashboard"> Voltar</a></p>
@@ -138,8 +146,6 @@ document.getElementById('formCriarEvento').addEventListener('submit', function(e
 
 
       <!-- script para enviar os dados pro controller -->
-
-    
 <script>
 document.getElementById('formCriarEvento').addEventListener('submit', function(e) {
     e.preventDefault();
