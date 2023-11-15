@@ -27,7 +27,7 @@ $routes->post('createUser', 'Auth::createUser');
   $routes->get('calendar', 'Calendario::acharSala');
 $routes->get('calendar', 'Reservas::buscarSala');
 $routes->post('criarEvento', 'Reservas::criarEvento');
-$routes->post('atualizarEvento', 'Reservas::atualizarEvento');
+$routes->post('reservas/atualizarEvento', 'Reservas::atualizarEvento');
 
 //acessar calendario
 $routes->get('calendar', 'Calendario::index');

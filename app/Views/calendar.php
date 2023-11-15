@@ -83,11 +83,12 @@ function exibirModalDetalhes(evento) {
 
 // Lógica para abrir o modal de edição do evento
 function abrirModalEdicao(evento) {
+  console.log(evento)
     // Preencher os campos do modal de edição com os dados atuais do evento
     document.getElementById("editarTitulo").value = evento.title;
     document.getElementById("editarDataInicio").value = evento.start;
     document.getElementById("editarDataFim").value = evento.end;
-
+  document.getElementById('formEditarEvento').action =  'reservas/atualizarEvento/' + evento.defId;
     var modal = document.getElementById("modalEditarEvento");
     modal.style.display = "block";
 
