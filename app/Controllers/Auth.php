@@ -120,5 +120,3 @@ public function updateUser()
 
 
 }
-
-teste pra mandar pro git

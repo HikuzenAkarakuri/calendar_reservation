@@ -11,6 +11,9 @@ class Reservas extends BaseController
         echo view('');
     }
 
+
+
+
     public function criarEvento()
 {
     $eventosModel = new \App\Models\EventosModel();
@@ -34,6 +37,9 @@ class Reservas extends BaseController
     return redirect()->to('/calendar')->with('message', 'Evento criado com sucesso!');
 }
 
+
+
+
 public function editarEvento($id)
 {
     $eventosModel = new \App\Models\EventosModel();
@@ -46,6 +52,9 @@ public function editarEvento($id)
         return redirect()->to('/calendar')->with('error', 'Evento não encontrado');
     }
 }
+
+
+
 
 public function atualizarEvento($id)
 {
@@ -69,6 +78,9 @@ public function atualizarEvento($id)
     }
 }
 
+
+
+
 public function deletarEvento($id)
 {
     $eventosModel = new \App\Models\EventosModel();
@@ -78,11 +90,17 @@ public function deletarEvento($id)
         // Deletar o evento do banco de dados
         $eventosModel->delete($id);
 
-        return redirect()->to('/calendar')->with('message', 'Evento deletado com sucesso!');
+        // Retorna uma resposta JSON indicando o sucesso da exclusão
+        return $this->response->setJSON(['success' => true]);
     } else {
-        return redirect()->to('/calendar')->with('error', 'Evento não encontrado');
+        // Retorna uma resposta JSON indicando falha ao encontrar o evento
+        return $this->response->setJSON(['success' => false, 'message' => 'Evento não encontrado']);
     }
 }
+
+
+
+
 
     public function buscarEvento(){
 

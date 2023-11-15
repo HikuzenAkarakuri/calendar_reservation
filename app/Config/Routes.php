@@ -13,15 +13,21 @@ $routes->post('authenticate', 'Auth::authenticate');
 $routes->get('update', 'Auth::acessar');
 //publica
 $routes->post('updateUser', 'Auth::updateUser');
+$routes->get('createSala', 'Salas::createSalas');
+
+
 $routes->get('logout', 'Auth::logout');
 $routes->get('create', 'Auth::create');
 $routes->get('register', 'Auth::register');
 $routes->post('createUser', 'Auth::createUser');
+
+
 //eventos
 
   $routes->get('calendar', 'Calendario::acharSala');
 $routes->get('calendar', 'Reservas::buscarSala');
 $routes->post('criarEvento', 'Reservas::criarEvento');
+$routes->post('atualizarEvento', 'Reservas::atualizarEvento');
 
 //acessar calendario
 $routes->get('calendar', 'Calendario::index');

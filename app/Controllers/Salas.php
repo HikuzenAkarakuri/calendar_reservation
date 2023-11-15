@@ -34,7 +34,12 @@ class Salas extends BaseController
 
     
 // }
-    
+
+public function createSalas(){
+
+    echo view('create_sala');
+
+}
 
 
 }

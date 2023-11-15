@@ -20,6 +20,9 @@
 <p>Atualize sua conta<a href="update"> aqui</a></p>
 
 
+<p>Crie suas Salas <a href="createSala"> aqui</a></p>
+
+
 <p><a href="logout"> Sair</a></p>
 
 </body>
