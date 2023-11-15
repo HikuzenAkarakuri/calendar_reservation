@@ -1,7 +1,7 @@
 <?php
 
 use CodeIgniter\Router\RouteCollection;
-
+ 
 /**
  * @var RouteCollection $routes
  */
@@ -27,7 +27,13 @@ $routes->post('createUser', 'Auth::createUser');
   $routes->get('calendar', 'Calendario::acharSala');
 $routes->get('calendar', 'Reservas::buscarSala');
 $routes->post('criarEvento', 'Reservas::criarEvento');
-$routes->post('reservas/atualizarEvento', 'Reservas::atualizarEvento');
+
+
+$routes->get('reservas/editarEvento/(:num)', 'Reservas::editarEvento/$1');
+$routes->post('reservas/atualizarEvento/(:num)', 'Reservas::atualizarEvento/$1');
+$routes->delete('reservas/deletarEvento/(:num)', 'Reservas::deletarEvento/$1');
+
+
 
 //acessar calendario
 $routes->get('calendar', 'Calendario::index');

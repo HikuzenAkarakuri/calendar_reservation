@@ -32,7 +32,8 @@ document.getElementById('formCriarEvento').addEventListener('submit', function(e
 <script>
   // CÓDIGO PRA ABRIR DETALHES QUANDO CLICA EM CIMA DO COISO
   // Lógica para exibir o modal de detalhes do evento ao clicar sobre ele no calendário
-function exibirModalDetalhes(evento) {
+  function exibirModalDetalhes(evento) {
+    var eventoId = evento.id;
     document.getElementById("detalhesTitulo").textContent = evento.title;
     document.getElementById("detalhesDataInicio").textContent = evento.start;
     document.getElementById("detalhesDataFim").textContent = evento.end;
@@ -149,35 +150,18 @@ function abrirModalEdicao(evento) {
 
 
 // Função para enviar os dados atualizados do evento para o backend
-function atualizarEvento(evento) {
-    var novoTitulo = document.getElementById("editarTitulo").value;
-    var novaDataInicio = document.getElementById("editarDataInicio").value;
-    var novaDataFim = document.getElementById("editarDataFim").value;
-
-    // Aqui você constrói o objeto com os dados a serem enviados
-    var dadosAtualizados = {
-        titulo: novoTitulo,
-        data_inicio: novaDataInicio,
-        data_fim: novaDataFim,
-        // Adicione outros campos conforme necessário para a atualização
-    };
-
-    // Fazendo a requisição AJAX para o controlador PHP
-    fetch('reservas/atualizarEvento/' + evento.id, {
+function atualizarEvento(eventoId, novosDados) {
+    fetch('reservas/atualizarEvento/' + eventoId, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(dadosAtualizados),
+        body: JSON.stringify(novosDados), // Envia os novos dados do evento
     })
     .then(response => response.json())
     .then(data => {
         console.log('Resposta do servidor:', data);
         // Lógica para atualizar o calendário ou a página após a atualização no backend
-        // Por exemplo:
-        // window.location.reload(); // Recarregar a página
-        // ou
-        // atualizarCalendario(); // Atualizar o calendário
     })
     .catch(error => {
         console.error('Erro:', error);
@@ -193,14 +177,14 @@ function atualizarEvento(evento) {
 
 function deletarEvento(eventoId) {
         if (confirm("Tem certeza que deseja deletar este evento?")) {
-            fetch('reservas/deletarEvento/' + eventoId, {
+            fetch('<?= base_url('reservas/deletarEvento') ?>/' + eventoId, {
                 method: 'DELETE' // Envie uma requisição DELETE para deletar o evento
             })
             .then(response => {
                 if (response.ok) {
                     alert('Evento deletado com sucesso!');
                     // Realizar ações após a exclusão, se necessário
-                    // Por exemplo, recarregar o calendário ou página
+                    // Por exemplo, recarregar a página ou atualizar a lista de eventos
                     window.location.reload(); // Recarregar a página
                 } else {
                     alert('Erro ao deletar o evento.');
@@ -342,25 +326,21 @@ function deletarEvento(eventoId) {
       <!-- MODAL PRA MOSTRAR OS DETALHES DOS EVENTOS -->
 
       <!-- Estrutura do modal de detalhes -->
+
+
+        <?php foreach ($eventos as $evento) : ?>
+    <div id="modalDetalhesEvento" class="modal">
+        <div class="modal-content">
+        <p><?= $evento->titulo ?></p>
+        <p><?= $evento->data_inicio ?></p>
+        <p><?= $evento->data_fim ?></p>
         
-        <div id="modalDetalhesEvento" class="modal">
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <h2>Detalhes do Evento</h2>
-                <!-- Campos para mostrar os detalhes do evento -->
-                <p><strong>Título:</strong> <span id="detalhesTitulo"></span></p>
-                <p><strong>Data de Início:</strong> <span id="detalhesDataInicio"></span></p>
-                <p><strong>Data de Término:</strong> <span id="detalhesDataFim"></span></p>
-                <!-- Adicione outros campos conforme necessário -->
-
-                <!-- botão que leva pra função editar eventos la em cima -->
-                <button id="editarEventoBtn">Editar</button>
-
-                <!-- botão de deletar -->
-                <button onclick="deletarEvento(<?= $evento->id ?? '' ?>)">Deletar</button>
-
-            </div>
+        <!-- Botões para edição e exclusão -->
+        <a href="<?= base_url("reservas/editarEvento/$evento->id") ?>">Editar</a>
+        <button onclick="deletarEvento(<?= $evento->id ?>)">Deletar</button>
         </div>
+    </div>
+<?php endforeach; ?>
 
 
                     <!-- MODAL PARA EDITAR OS EVENTOS -->
@@ -370,25 +350,32 @@ function deletarEvento(eventoId) {
             <div class="modal-content">
                 <span class="close">&times;</span>
                 <h2>Editar Evento</h2>
-                <form id="formEditarEvento" action="<?= base_url('atualizarEvento') ?>" method="post">
-                    <!-- Campos para editar os detalhes do evento -->
-                    <label for="editarTitulo">Título:</label>
-                    <input type="text" id="editarTitulo" name="titulo" required><br>
+                <!-- Formulário para editar um evento -->
+                
+                        <form action="<?= base_url("reservas/atualizarEvento/$evento->id") ?>" method="post">
+                            <label for="data_inicio">Data de Início:</label>
+                            <input type="datetime-local" id="data_inicio" name="data_inicio" value="<?= date('Y-m-d\TH:i', strtotime($evento->data_inicio)) ?>" required><br>
 
-                    <label for="editarDataInicio">Data de Início:</label>
-                    <input type="datetime-local" id="editarDataInicio" name="data_inicio" required><br>
+                            <label for="data_fim">Data de Término:</label>
+                            <input type="datetime-local" id="data_fim" name="data_fim" value="<?= date('Y-m-d\TH:i', strtotime($evento->data_fim)) ?>" required><br>
 
-                    <label for="editarDataFim">Data de Término:</label>
-                    <input type="datetime-local" id="editarDataFim" name="data_fim" required><br>
+                            <label for="titulo">Título:</label>
+                            <input type="text" id="titulo" name="titulo" value="<?= $evento->titulo ?>" required><br>
 
-                    <!-- Adicione outros campos conforme necessário -->
+                            <label for="descricao">Descrição:</label>
+                            <textarea id="descricao" name="descricao" required><?= $evento->descricao ?></textarea><br>
 
-                    <button type="submit">Salvar</button>
-                </form>
+                            <!-- Outros campos do evento para edição -->
+
+                            <button type="submit">Salvar</button>
+                        </form>
+
             </div>
         </div>
 
 
+
+        
 
         
       <!-- script para enviar os dados pro controller -->

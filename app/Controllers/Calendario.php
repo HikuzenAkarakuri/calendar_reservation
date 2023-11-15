@@ -6,7 +6,7 @@ use App\Controllers\BaseController;
 use App\Services\SalaService;
 use CodeIgniter\Config\Factories;
 
-class Calendario extends BaseController
+class Calendario extends BaseController 
 {
 
     private $salaService;

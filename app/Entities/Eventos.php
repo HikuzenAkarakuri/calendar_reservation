@@ -6,6 +6,14 @@ use CodeIgniter\Entity\Entity;
 
 class Eventos extends Entity
 {
+
+    protected $id;
+    protected $data_inicio;
+    protected $data_fim;
+    protected $titulo;
+    protected $descricao;
+
+
     protected $datamap = [];
     protected $attributes = [
         'id' => null,
@@ -16,4 +24,4 @@ class Eventos extends Entity
     ];
     protected $dates   = ['created_at', 'updated_at', 'deleted_at'];
     protected $casts   = [];
-}
+} 

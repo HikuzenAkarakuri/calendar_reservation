@@ -42,12 +42,12 @@ class Reservas extends BaseController
 
 public function editarEvento($id)
 {
-    $eventosModel = new \App\Models\EventosModel();
+    $eventosModel = new EventosModel();
     $evento = $eventosModel->find($id);
 
     if ($evento) {
-        // Aqui você pode carregar uma view para editar o evento
-        // Exemplo: return view('editar_evento', ['evento' => $evento]);
+        // Carregar a view com o formulário de edição preenchido com os dados do evento
+        return view('editar_evento', ['evento' => $evento]);
     } else {
         return redirect()->to('/calendar')->with('error', 'Evento não encontrado');
     }
@@ -59,7 +59,13 @@ public function editarEvento($id)
 public function atualizarEvento($id)
 {
     $eventosModel = new \App\Models\EventosModel();
-    $evento = $eventosModel->find($id);
+        $data = [
+            'data_inicio' => $this->request->getPost('data_inicio'),
+            'data_fim' => $this->request->getPost('data_fim'),
+            'titulo' => $this->request->getPost('titulo'),
+            'descricao' => $this->request->getPost('descricao'),
+            // outros campos...
+        ];
 
     if ($evento) {
         // Atualizar os dados do evento com os novos valores do formulário
@@ -81,10 +87,10 @@ public function atualizarEvento($id)
 
 
 
-public function deletarEvento($id)
+public function deletarEvento($id) 
 {
     $eventosModel = new \App\Models\EventosModel();
-    $evento = $eventosModel->find($id);
+    $eventosModel->deletarEvento($id);
 
     if ($evento) {
         // Deletar o evento do banco de dados
@@ -101,10 +107,18 @@ public function deletarEvento($id)
 
 
 
+public function buscarEvento()
+{
+    $eventosModel = new \App\Models\EventosModel();
+    $eventos = $eventosModel->findAll();
 
-    public function buscarEvento(){
+    $data['eventos'] = $eventos;
 
-    }
+    return view('calendar', $data);
+}
+
+
+
 
 
 public function buscarSala()

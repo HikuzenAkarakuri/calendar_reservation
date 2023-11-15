@@ -5,7 +5,7 @@ namespace App\Services;
 use App\Entities\Sala;
 use App\Models\SalaModel;
 use CodeIgniter\Config\Factories;
-
+ 
 class SalaService{
 
     protected $salaModel;

@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use CodeIgniter\Model;
-
+ 
 class EventosModel extends Model
 {
     protected $DBGroup          = 'default';
@@ -38,4 +38,17 @@ class EventosModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+
+    public function atualizarEvento($id, $data)
+    {
+        return $this->update($id, $data);
+    }
+
+    public function deletarEvento($id)
+    {
+        return $this->delete($id);
+    }
+
+
 }
